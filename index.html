@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0b2e4f">
+<title>ISC2 CC Trainer</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#eef2f7;--card:#fff;--ink:#1c2733;--mute:#66768a;--pri:#0b5cad;--dark:#0b2e4f;--ok:#1d8f4e;--okbg:#e5f6ec;--bad:#c62f2f;--badbg:#fdeaea;--line:#d8e0ea}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.45}
+header.top{background:var(--dark);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;position:sticky;top:0;z-index:5}
+header.top h1{font-size:17px;margin:0;font-weight:600}
+header.top .r{font-size:14px;opacity:.9;display:flex;gap:12px;align-items:center}
+main{max-width:780px;margin:0 auto;padding:16px}
+.card{background:var(--card);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.07);padding:18px;margin-bottom:14px}
+.anim{animation:in .25s ease}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+h2{font-size:18px;margin:0 0 10px}
+.btn{display:block;width:100%;border:0;border-radius:10px;padding:14px;font-size:16px;font-weight:600;cursor:pointer;background:var(--pri);color:#fff;margin:8px 0;text-align:center}
+.btn.sec{background:#e3eaf3;color:var(--ink)}
+.btn.warn{background:#fbe3e3;color:var(--bad)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn small{display:block;font-weight:400;opacity:.85;font-size:13px}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:140px}
+.chip{display:inline-block;font-size:12px;padding:3px 9px;border-radius:20px;background:#e3eaf3;color:var(--dark);font-weight:600}
+.q{font-size:18px;font-weight:500;margin:12px 0 16px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:#f7f9fc;border:2px solid var(--line);border-radius:10px;padding:13px;margin:8px 0;font-size:16px;cursor:pointer;color:var(--ink)}
+.opt .k{flex:0 0 26px;height:26px;border-radius:50%;background:#fff;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.opt:hover:not(:disabled){border-color:var(--pri)}
+.opt.sel{border-color:var(--pri);background:#e8f1fb}.opt.sel .k{background:var(--pri);color:#fff;border-color:var(--pri)}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}.opt.ok .k{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}.opt.bad .k{background:var(--bad);color:#fff;border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.expl{border-left:4px solid var(--pri);background:#f3f7fc;padding:10px 12px;border-radius:6px;margin-top:12px;font-size:15px}
+.res{font-weight:700;margin-top:10px}.res.ok{color:var(--ok)}.res.bad{color:var(--bad)}
+.bar{height:9px;background:#e3eaf3;border-radius:6px;overflow:hidden;margin:4px 0 10px}
+.bar>i{display:block;height:100%;background:var(--pri)}
+.stat{display:flex;justify-content:space-between;font-size:14px}
+.big{font-size:28px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+.grid div{background:#f3f7fc;border-radius:10px;padding:10px}.grid small{color:var(--mute);font-size:12px}
+.mute{color:var(--mute);font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px 4px;border-bottom:1px solid var(--line);text-align:left}
+.pass{color:var(--ok)}.fail{color:var(--bad)}
+.exam header.top{background:#1f3b57}
+.exam .card{border-radius:4px}
+.examq{font-size:17px}
+.examopt{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:4px;margin:8px 0;cursor:pointer;background:#fff}
+.examopt input{margin-top:4px;transform:scale(1.25)}
+.examopt.sel{background:#e8f1fb;border-color:var(--pri)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
+.foot .btn{width:auto;padding:12px 26px;margin:0}
+.rev{border-top:1px solid var(--line);padding:12px 0}
+.rev .mute b{color:var(--ink)}
+a.lnk{color:var(--pri);cursor:pointer;text-decoration:underline;font-size:14px}
+select{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);font-size:16px;background:#fff}
+.kbd{font-size:12px;color:var(--mute);text-align:center;margin-top:6px}
+@media(max-width:520px){main{padding:10px}.card{padding:14px}.q{font-size:17px}.grid{gap:6px}.big{font-size:22px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const DOM = ["Security Principles","Business Continuity, Disaster Recovery & Incident Response","Access Controls Concepts","Network Security","Security Operations"];
+const WEIGHT = [26,10,22,24,18];
+const EXAM_ITEMS = 100, EXAM_SECONDS = 2*60*60, PASS = 700;
+// [domain, question, correct answer, [distractors], explanation]
+const QB = [
+// ===================== DOMAIN 1: SECURITY PRINCIPLES =====================
+[1,"Which element of the CIA triad is primarily concerned with preventing the unauthorized disclosure of information?","Confidentiality",["Integrity","Availability","Non-repudiation"],"Confidentiality protects information from being disclosed to unauthorized individuals, processes or systems."],
+[1,"An unauthorized user modified several patient records in a hospital database. Which security principle was violated?","Integrity",["Confidentiality","Availability","Privacy"],"Integrity ensures data is not altered in an unauthorized manner and remains accurate and complete."],
+[1,"A DDoS attack makes a company's e-commerce website unreachable for several hours. Which security principle is MOST directly affected?","Availability",["Confidentiality","Integrity","Non-repudiation"],"Availability means systems and data are accessible to authorized users when needed. DoS/DDoS attacks target availability."],
+[1,"Which security concept provides assurance that the sender of a message cannot later deny having sent it?","Non-repudiation",["Confidentiality","Availability","Authorization"],"Non-repudiation prevents a party from denying an action, typically achieved with digital signatures and logging."],
+[1,"Digital signatures PRIMARILY provide which of the following?","Integrity, authenticity and non-repudiation",["Confidentiality and availability","Availability only","Confidentiality only"],"A digital signature is created with the sender's private key. It proves origin (authenticity), that the message was not altered (integrity) and supports non-repudiation. It does not encrypt the message."],
+[1,"Which of the following is an example of the 'something you know' authentication factor?","A PIN",["A fingerprint","A smart card","A hardware token"],"Knowledge factors include passwords, PINs and answers to security questions."],
+[1,"Which of the following is an example of the 'something you have' authentication factor?","A hardware token that generates one-time passwords",["A password","A retina scan","The answer to a security question"],"Possession factors include tokens, smart cards and mobile phones that receive codes."],
+[1,"Which of the following is an example of the 'something you are' authentication factor?","A fingerprint scan",["A passphrase","A badge","A one-time code sent by SMS"],"Inherence (biometric) factors include fingerprints, facial recognition, iris/retina and voice."],
+[1,"A user logs in by entering a password and then answering a security question. What type of authentication is this?","Single-factor authentication",["Two-factor authentication","Multi-factor authentication","Biometric authentication"],"Both a password and a security question are 'something you know'. Using two items of the SAME factor type is still single-factor authentication."],
+[1,"Which of the following is an example of multi-factor authentication (MFA)?","A password plus a code from an authenticator app on the user's smartphone",["A username and a password","A password and a PIN","Two different passwords"],"MFA requires at least two DIFFERENT factor types. Password (know) + phone/app (have) = MFA."],
+[1,"A user types their username into a login screen. Which step of access control does this represent?","Identification",["Authentication","Authorization","Accounting"],"Identification is the claim of an identity (e.g., username). Authentication proves that claim."],
+[1,"What is the process of verifying that a user is who they claim to be?","Authentication",["Identification","Authorization","Auditing"],"Authentication verifies the claimed identity using one or more factors (password, token, biometric)."],
+[1,"After a user is successfully authenticated, the system determines which files the user may open. This is called:","Authorization",["Identification","Accounting","Non-repudiation"],"Authorization grants or denies access to resources based on the authenticated identity's permissions."],
+[1,"Recording user actions in logs so they can be traced back to a specific individual supports which principle?","Accountability",["Availability","Confidentiality","Authorization"],"Accountability (accounting/auditing) ties actions to individuals, which requires unique IDs and logging."],
+[1,"Which term describes the right of individuals to control the collection, use and disclosure of their personal information?","Privacy",["Confidentiality","Integrity","Non-repudiation"],"Privacy is the individual's right to control information about themselves. Confidentiality is a mechanism that helps protect it."],
+[1,"The European Union's General Data Protection Regulation (GDPR) applies to:","Organizations anywhere in the world that process personal data of individuals in the EU",["Only organizations headquartered in the EU","Only government agencies in the EU","Only healthcare data in the EU"],"GDPR has extraterritorial scope: it applies to any organization processing personal data of people located in the EU."],
+[1,"Which of the following is considered Personally Identifiable Information (PII)?","A person's full name combined with their national ID number",["A company's annual revenue","The operating system version of a server","A public product catalog"],"PII is any information that can identify an individual, such as name, ID numbers, date of birth or biometric data."],
+[1,"Which United States law focuses on protecting the privacy of health information (PHI)?","HIPAA",["SOX","GLBA","FERPA"],"HIPAA (Health Insurance Portability and Accountability Act) protects Protected Health Information. SOX = financial reporting, GLBA = financial institutions, FERPA = education records."],
+[1,"Which of the following BEST describes risk?","The likelihood that a threat will exploit a vulnerability, and the resulting impact",["A weakness in a system","Any person who attacks a network","A control that reduces impact"],"Risk is a function of likelihood and impact: the possibility that a threat exploits a vulnerability and causes harm."],
+[1,"A server is running software with a known, unpatched flaw. This flaw is BEST described as a:","Vulnerability",["Threat","Risk","Exploit"],"A vulnerability is a weakness or gap that can be exploited by a threat."],
+[1,"A flood that could damage a company's data center is an example of a:","Threat",["Vulnerability","Control","Risk acceptance"],"A threat is any circumstance or event (natural or human) with the potential to cause harm."],
+[1,"The individual or group that intentionally attempts to exploit a vulnerability is known as a:","Threat actor",["Risk owner","Vulnerability","Data custodian"],"A threat actor (threat agent) is the entity that carries out a threat, e.g., hackers, insiders, nation-states."],
+[1,"An organization purchases cyber insurance to cover potential losses from a data breach. Which risk treatment is this?","Risk transference",["Risk avoidance","Risk acceptance","Risk mitigation"],"Transferring (sharing) risk moves the financial impact to a third party, such as an insurer."],
+[1,"A company decides to stop offering a service because the associated risk is too high. Which risk treatment is this?","Risk avoidance",["Risk transference","Risk acceptance","Risk mitigation"],"Avoidance eliminates the risk by stopping the activity that causes it."],
+[1,"An organization installs a firewall and enables multi-factor authentication to reduce the likelihood of compromise. Which risk treatment is this?","Risk mitigation",["Risk avoidance","Risk transference","Risk acceptance"],"Mitigation (reduction) implements controls to lower the likelihood and/or impact of a risk."],
+[1,"The cost of a control is greater than the potential loss from a risk, so management decides to do nothing. Which risk treatment is this?","Risk acceptance",["Risk avoidance","Risk mitigation","Risk transference"],"Accepting risk is a valid decision when the cost of treatment exceeds the potential impact. It must be a conscious, documented management decision."],
+[1,"Who is ultimately responsible for deciding the level of risk an organization will accept?","Senior management",["The security administrator","The help desk","The external auditor"],"Senior management (executives/board) owns risk decisions and is ultimately accountable for security in the organization."],
+[1,"The overall amount of risk an organization is willing to accept in pursuit of its objectives is called:","Risk appetite",["Residual risk","Inherent risk","Risk transference"],"Risk appetite (and risk tolerance) defines how much risk the organization is willing to take on."],
+[1,"A risk assessment rates risks as 'High', 'Medium' or 'Low' based on expert judgment. What type of assessment is this?","Qualitative",["Quantitative","Statistical","Financial"],"Qualitative assessments use descriptive ratings. Quantitative assessments use numeric/monetary values."],
+[1,"Which formula is used in quantitative risk analysis to calculate the Annualized Loss Expectancy (ALE)?","SLE x ARO",["Asset value x ARO","SLE / ARO","Threat x Vulnerability"],"ALE = Single Loss Expectancy x Annualized Rate of Occurrence. SLE = Asset Value x Exposure Factor."],
+[1,"The risk that remains after security controls have been applied is called:","Residual risk",["Inherent risk","Total risk avoidance","Risk appetite"],"Residual risk is what is left after treatment. Management must decide whether it is acceptable."],
+[1,"What is typically the FIRST step in the risk management process?","Identify assets and risks",["Implement controls","Purchase insurance","Monitor the controls"],"Risk management begins with identification (assets, threats, vulnerabilities), followed by assessment, treatment and monitoring."],
+[1,"Which of the following is an example of a technical (logical) control?","An access control list on a router",["A security awareness policy","A security guard","A perimeter fence"],"Technical controls are implemented through hardware/software: ACLs, firewalls, encryption, MFA."],
+[1,"Pre-employment background checks are which type of control?","Administrative",["Technical","Physical","Logical"],"Administrative (managerial) controls are policies, procedures, training, background checks and other people-oriented processes."],
+[1,"A locked door protecting a server room is an example of which type of control?","Physical",["Technical","Administrative","Logical"],"Physical controls protect tangible assets: locks, fences, guards, cameras, bollards."],
+[1,"A sign that reads 'This area is monitored - trespassers will be prosecuted' is PRIMARILY which type of control?","Deterrent",["Corrective","Compensating","Recovery"],"Deterrent controls discourage potential attackers from attempting a violation."],
+[1,"Reviewing audit logs to identify suspicious activity is an example of which type of control?","Detective",["Preventive","Deterrent","Corrective"],"Detective controls identify that something has happened or is happening (logs, IDS, alarms)."],
+[1,"A firewall that blocks unauthorized traffic before it reaches the internal network is an example of a:","Preventive control",["Detective control","Corrective control","Recovery control"],"Preventive controls stop an incident before it occurs."],
+[1,"An organization cannot implement the required control due to a legacy system, so it implements an alternative control that provides similar protection. This is known as a:","Compensating control",["Deterrent control","Directive control","Detective control"],"Compensating controls provide an alternative way of meeting a requirement when the primary control is not feasible."],
+[1,"Which governance element is a high-level, mandatory statement of management's intent and direction?","Policy",["Procedure","Guideline","Baseline"],"Policies are broad, high-level documents approved by senior management. Standards and procedures support them."],
+[1,"Detailed, step-by-step instructions for performing a specific task, such as creating a new user account, are known as:","Procedures",["Policies","Guidelines","Regulations"],"Procedures describe exactly HOW to perform a task, step by step."],
+[1,"Which governance element consists of recommendations that are NOT mandatory?","Guidelines",["Policies","Standards","Procedures"],"Guidelines are suggestions or best practices; policies, standards and procedures are mandatory."],
+[1,"A document states: 'All corporate laptops must use AES-256 full disk encryption.' This is BEST described as a:","Standard",["Guideline","Procedure","Regulation"],"Standards specify mandatory, specific technologies or configurations that support a policy."],
+[1,"An organizational policy conflicts with a government law. Which should take precedence?","The law",["The organizational policy","Whichever is more recent","The industry guideline"],"Laws and regulations imposed by governments always take precedence over internal policies."],
+[1,"Which organization is responsible for developing Internet standards such as TCP/IP protocols, published as RFCs?","IETF",["ISO","NIST","PCI SSC"],"The Internet Engineering Task Force develops Internet protocol standards (Requests for Comments)."],
+[1,"Organizations that store, process or transmit payment card data must comply with which standard?","PCI DSS",["HIPAA","GDPR","FERPA"],"The Payment Card Industry Data Security Standard is a contractual standard set by the card brands (PCI SSC)."],
+[1,"What is the FIRST canon of the ISC2 Code of Ethics?","Protect society, the common good, necessary public trust and confidence, and the infrastructure",["Act honorably, honestly, justly, responsibly and legally","Provide diligent and competent service to principals","Advance and protect the profession"],"The canons in order: 1) Protect society... 2) Act honorably... 3) Provide diligent and competent service to principals 4) Advance and protect the profession."],
+[1,"Which ISC2 Code of Ethics canon states that members should 'act honorably, honestly, justly, responsibly, and legally'?","The second canon",["The first canon","The third canon","The fourth canon"],"Canon 2 is about personal conduct: act honorably, honestly, justly, responsibly and legally."],
+[1,"Which ISC2 Code of Ethics canon relates to serving employers and clients?","Provide diligent and competent service to principals",["Protect society and the infrastructure","Advance and protect the profession","Act honorably and legally"],"Canon 3: 'Provide diligent and competent service to principals' (employers/clients)."],
+[1,"If two canons of the ISC2 Code of Ethics conflict, how should the conflict be resolved?","Apply the canons in the order in which they are listed",["Apply whichever benefits the employer","Apply the most recent canon","Consult a lawyer before taking any action"],"The canons are listed in order of priority. Protecting society (canon 1) comes before service to principals (canon 3)."],
+[1,"An ISC2 member discovers that another ISC2-certified professional is selling actual exam questions online. What should the member do?","Report the behavior to ISC2 through the ethics complaint process",["Ignore it because it does not affect them","Buy the questions to verify the claim","Post publicly about the person on social media"],"Members are bound to protect the profession. Exam fraud should be reported to ISC2 via the formal ethics complaint procedure."],
+[1,"Your manager asks you to delete logs that show a security breach to avoid bad publicity. According to the ISC2 Code of Ethics, what should you do?","Refuse, because protecting society and acting legally take priority over the employer's request",["Delete the logs because you must serve your principals","Delete only the most damaging entries","Ask a colleague to delete them instead"],"Canons 1 and 2 (protect society, act legally) take precedence over canon 3 (service to principals)."],
+[1,"Implementing security controls the way a reasonable and prudent person would in the same situation is known as:","Due care",["Due diligence","Risk avoidance","Separation of duties"],"Due care = doing the right thing (implementing reasonable controls). Due diligence = investigating, verifying and maintaining them over time."],
+[1,"Regularly auditing and verifying that implemented security controls continue to operate effectively is an example of:","Due diligence",["Due care","Risk transference","Non-repudiation"],"Due diligence is the ongoing research, review and verification that ensures due care is maintained."],
+[1,"Which technique is MOST commonly used to verify that a file has not been altered?","Hashing",["Symmetric encryption","Compression","Steganography"],"Comparing hash values (e.g., SHA-256) before and after transmission/storage verifies integrity."],
+[1,"Which of the following BEST supports the availability of a critical system?","Redundant components and failover capabilities",["Encrypting the system's hard drives","Hashing all stored files","Requiring complex passwords"],"Redundancy, failover, backups and fault tolerance support availability. Encryption supports confidentiality; hashing supports integrity."],
+[1,"A biometric system incorrectly grants access to an unauthorized person. This is known as a:","False acceptance (Type II error)",["False rejection (Type I error)","Crossover error","True negative"],"False Acceptance Rate (FAR, Type II) is the more dangerous error for security. False Rejection (FRR, Type I) denies a legitimate user."],
+[1,"From a security professional's perspective, what is ALWAYS the highest priority?","The safety of human life",["Protecting the organization's data","Maintaining system availability","Preserving evidence"],"Human safety always comes first, above data, systems and evidence."],
+[1,"Anything of value to an organization, such as data, hardware, people or reputation, is called:","An asset",["A threat","A vulnerability","A control"],"Assets are what risk management seeks to protect. Their value helps prioritize controls."],
+[1,"Which of the following describes the importance of a piece of information or system to the organization's mission?","Criticality",["Sensitivity","Confidentiality","Integrity"],"Criticality reflects how essential an asset is to operations; sensitivity reflects the harm caused if it is disclosed."],
+[1,"An attacker successfully intercepts and reads unencrypted emails. Which part of the CIA triad was compromised?","Confidentiality",["Integrity","Availability","Authentication"],"Reading data without authorization is a confidentiality violation."],
+[1,"Which of the following is the BEST example of a security control that supports integrity?","Digital signatures on software updates",["A redundant power supply","A privacy screen filter","Load balancing"],"Digital signatures detect tampering, supporting integrity and authenticity."],
+// ===================== DOMAIN 2: BC, DR & IR =====================
+[2,"What is the PRIMARY goal of business continuity (BC)?","To keep critical business functions operating during and after a disruption",["To restore all IT systems to full capacity immediately","To identify the attacker responsible for an incident","To prevent all disasters from occurring"],"BC focuses on sustaining critical business operations during a disruption. DR focuses on restoring IT systems."],
+[2,"Disaster recovery (DR) planning PRIMARILY focuses on:","Restoring IT systems and infrastructure after a disaster",["Keeping all employees productive at home","Investigating the cause of security incidents","Training users on phishing"],"DR is a subset of BC focused on recovering technology, data and infrastructure."],
+[2,"What is the main purpose of an incident response plan?","To minimize the impact of an incident and restore normal operations as quickly as possible",["To prevent all security incidents","To prosecute every attacker","To replace the business continuity plan"],"Incident response aims to limit damage, reduce recovery time and costs, and learn from the incident."],
+[2,"Which activity identifies an organization's critical business functions and the impact if they are disrupted?","Business Impact Analysis (BIA)",["Penetration test","Vulnerability scan","Tabletop exercise"],"The BIA identifies critical processes, dependencies and impacts, and helps define RTO, RPO and MTD."],
+[2,"The maximum acceptable amount of time to restore a system after a disruption is known as the:","Recovery Time Objective (RTO)",["Recovery Point Objective (RPO)","Mean Time Between Failures (MTBF)","Annualized Rate of Occurrence (ARO)"],"RTO = how quickly a system must be restored. RPO = how much data (in time) can be lost."],
+[2,"A company backs up its database every 4 hours and accepts losing up to 4 hours of data. Which metric does this describe?","Recovery Point Objective (RPO)",["Recovery Time Objective (RTO)","Maximum Tolerable Downtime (MTD)","Service Level Agreement (SLA)"],"RPO is the maximum acceptable data loss measured in time, and it drives backup frequency."],
+[2,"The longest period a business function can be unavailable before the organization suffers unacceptable consequences is the:","Maximum Tolerable Downtime (MTD)",["Recovery Point Objective (RPO)","Mean Time To Repair (MTTR)","Exposure Factor (EF)"],"MTD is the absolute limit of downtime. The RTO must be shorter than the MTD."],
+[2,"Which type of alternate recovery site is fully equipped and can be operational within minutes or hours?","Hot site",["Cold site","Warm site","Mobile site"],"A hot site has hardware, software, network and current data, providing the fastest recovery at the highest cost."],
+[2,"Which alternate site provides only space, power and environmental controls, and is the cheapest but slowest to activate?","Cold site",["Hot site","Warm site","Mirrored site"],"A cold site has basic infrastructure but no equipment or data; it may take weeks to become operational."],
+[2,"An alternate site with some hardware and network connectivity, but that requires data restoration before use, is a:","Warm site",["Hot site","Cold site","Redundant site"],"A warm site is a compromise between cost and recovery time."],
+[2,"What is the correct order of the NIST incident response lifecycle phases?","Preparation; Detection and Analysis; Containment, Eradication and Recovery; Post-Incident Activity",["Detection; Preparation; Recovery; Containment","Containment; Detection; Preparation; Lessons Learned","Preparation; Containment; Detection; Eradication"],"NIST SP 800-61 defines four phases: Preparation, Detection & Analysis, Containment/Eradication/Recovery, Post-Incident Activity."],
+[2,"During an incident, the security team disconnects an infected workstation from the network to stop malware from spreading. Which incident response activity is this?","Containment",["Eradication","Recovery","Preparation"],"Containment limits the damage and prevents the incident from spreading."],
+[2,"Removing malware and closing the vulnerability that allowed the attack is part of which incident response activity?","Eradication",["Containment","Detection","Preparation"],"Eradication eliminates the root cause and components of the incident from the environment."],
+[2,"Holding a 'lessons learned' meeting after an incident takes place during which phase?","Post-incident activity",["Preparation","Detection and analysis","Containment"],"Post-incident activity reviews what happened, what worked and what should be improved."],
+[2,"Developing an incident response policy, training the team and acquiring tools takes place in which phase?","Preparation",["Detection and analysis","Containment","Post-incident activity"],"Preparation establishes the capability to respond: plans, teams, tools, training and communication."],
+[2,"Which phase of incident response determines whether an event is actually an incident?","Detection and analysis",["Preparation","Eradication","Recovery"],"In detection and analysis, events are examined, validated and prioritized to determine if an incident occurred."],
+[2,"Which term describes any observable occurrence in a network or system?","Event",["Incident","Breach","Intrusion"],"An event is any observable occurrence. Only events that jeopardize CIA (or violate policy) are incidents."],
+[2,"An event that actually or potentially jeopardizes the confidentiality, integrity or availability of an information system is a(n):","Incident",["Event","Vulnerability","Baseline"],"Every incident is an event, but not every event is an incident."],
+[2,"The loss of control or unauthorized disclosure of personally identifiable information is BEST described as a:","Breach",["Event","Zero day","Vulnerability"],"A breach involves the compromise or unauthorized access/disclosure of information, especially PII."],
+[2,"A previously unknown vulnerability for which no patch exists is called a:","Zero-day",["Known vulnerability","Backdoor","Baseline deviation"],"Zero-day vulnerabilities are unknown to the vendor; signature-based defenses usually cannot detect their exploits."],
+[2,"Code or a technique that takes advantage of a vulnerability is called a(n):","Exploit",["Threat","Incident","Control"],"An exploit is the specific method used to leverage a vulnerability."],
+[2,"A security event in which an intruder gains, or attempts to gain, access to a system without authorization is called a(n):","Intrusion",["Exploit","Event","Risk"],"An intrusion is an unauthorized act of gaining or attempting to gain access to a system or resource."],
+[2,"Which of the following is MOST important when forming an incident response team?","Including representatives from multiple areas such as IT, legal, HR, management and communications",["Using only external consultants","Including only network administrators","Keeping the team membership secret from management"],"Incidents have technical, legal, HR and public relations implications, so the team should be cross-functional."],
+[2,"Which business continuity plan test involves team members discussing their roles in a scenario around a table, without disrupting operations?","Tabletop exercise",["Full interruption test","Parallel test","Simulation of a real outage"],"A tabletop exercise is a discussion-based walkthrough; it is low cost and has no impact on operations."],
+[2,"Which type of disaster recovery test carries the HIGHEST risk to normal business operations?","Full interruption test",["Tabletop exercise","Checklist review","Parallel test"],"A full interruption test actually shuts down primary operations and moves them to the alternate site."],
+[2,"In which disaster recovery test are systems brought up at the alternate site while the primary site continues normal operations?","Parallel test",["Full interruption test","Tabletop exercise","Read-through test"],"Parallel tests validate the alternate site without interrupting production."],
+[2,"Which backup type copies only the data that has changed since the last FULL backup?","Differential",["Incremental","Full","Snapshot of the entire disk"],"Differential = changes since last full. Restore needs the last full + the latest differential."],
+[2,"Which backup type copies only the data changed since the last backup of ANY type, and is the fastest to perform but the slowest to restore?","Incremental",["Differential","Full","Mirror"],"Incremental restores require the last full backup plus EVERY incremental since then, in order."],
+[2,"During a disaster such as a fire, what should be the FIRST priority?","Ensure the safety of personnel",["Protect the servers","Make a backup of critical data","Notify the media"],"Human life and safety always come first in BC/DR and incident response."],
+[2,"Which document records everyone who handled a piece of evidence, when, and for what purpose?","Chain of custody",["Business impact analysis","Incident ticket","Change request"],"Chain of custody preserves the integrity and admissibility of evidence."],
+[2,"A call tree used to notify personnel during a disaster is part of the BC plan's:","Communication plan",["Risk register","Change management process","Asset inventory"],"BC/DR plans must include how and in what order key personnel and stakeholders will be contacted."],
+[2,"Why should copies of business continuity and disaster recovery plans be stored off-site?","So they remain accessible if the primary site is unavailable",["To reduce printing costs","To comply with the acceptable use policy","To prevent employees from reading them"],"Plans are useless if they are destroyed or inaccessible along with the primary facility."],
+[2,"After systems are restored from clean backups and monitored for signs of re-infection, which incident response activity has occurred?","Recovery",["Containment","Detection","Preparation"],"Recovery returns systems to normal operation and validates that they function properly."],
+[2,"Which of the following is the BEST defense against losing data to a ransomware attack?","Regular, tested backups stored offline or isolated from the network",["A strong password policy","Disabling the firewall","Increasing log retention"],"Offline/immutable, tested backups let you restore encrypted data without paying the ransom."],
+// ===================== DOMAIN 3: ACCESS CONTROLS =====================
+[3,"Which physical security control is specifically designed to prevent tailgating by allowing only one person through at a time?","Mantrap (access control vestibule)",["Bollard","CCTV camera","Motion sensor"],"A mantrap has two doors; the second only opens after the first closes, allowing one authorized person at a time."],
+[3,"An unauthorized person follows an employee through a secured door without using a badge. This is known as:","Tailgating",["Shoulder surfing","Phishing","Pretexting"],"Tailgating (piggybacking when the employee knowingly allows it) bypasses physical access controls."],
+[3,"Which physical control is used to prevent vehicles from crashing into a building entrance?","Bollards",["Mantraps","Turnstiles","Badge readers"],"Bollards are short, sturdy posts that block vehicle access while allowing pedestrians through."],
+[3,"Which physical security control can make judgment-based decisions in unexpected situations?","Security guards",["CCTV cameras","Electronic locks","Fences"],"Guards are the most flexible physical control because they can evaluate situations and respond."],
+[3,"Which physical access control can BOTH restrict entry and provide an audit trail of who entered an area?","Electronic badge reader system",["Mechanical key lock","Warning sign","Perimeter lighting"],"Badge systems record each access attempt with identity and time, providing accountability."],
+[3,"Visitor logs at a reception desk are PRIMARILY used to:","Provide a record of who entered the facility and when",["Encrypt visitor data","Prevent all unauthorized entry","Replace security guards"],"Logs support accountability and investigations; visitors should also be escorted."],
+[3,"Which of the following is the BEST practice for visitors in a secure facility?","Visitors sign in, wear a visible badge and are escorted at all times",["Visitors can move freely once inside","Visitors use an employee's badge","Visitors only sign out when leaving"],"Escorting, badging and logging visitors prevents unauthorized access to sensitive areas."],
+[3,"Which control is BEST for detecting an intruder in a data center after business hours?","Motion sensors connected to an alarm",["A warning sign","Security awareness training","An acceptable use policy"],"Motion sensors and alarms are detective physical controls that alert when someone is present."],
+[3,"Adequate lighting around a building's perimeter is PRIMARILY a(n):","Deterrent control",["Corrective control","Recovery control","Technical control"],"Lighting discourages intruders and supports surveillance."],
+[3,"Which principle states that users should be granted only the minimum access necessary to perform their job?","Least privilege",["Separation of duties","Defense in depth","Job rotation"],"Least privilege limits damage from mistakes, malware and malicious insiders."],
+[3,"Even with a Top Secret clearance, a user can only access the classified files required for their current project. Which principle is applied?","Need to know",["Separation of duties","Implicit allow","Dual control"],"Need to know restricts access to information required for specific duties, regardless of clearance level."],
+[3,"The same employee can create a new vendor in the payment system AND approve payments to that vendor. Which principle is violated?","Separation of duties",["Least privilege","Need to know","Defense in depth"],"Separation (segregation) of duties splits critical tasks among multiple people to prevent fraud and errors."],
+[3,"Opening a bank vault requires two employees, each with a different part of the combination. Which principle is this?","Two-person rule (dual control)",["Least privilege","Single sign-on","Discretionary access control"],"The two-person rule requires two authorized people to be present or to act together for sensitive operations."],
+[3,"Separation of duties can be defeated when two or more employees work together to commit fraud. This is called:","Collusion",["Privilege creep","Tailgating","Spoofing"],"Collusion is the main weakness of separation of duties; job rotation and mandatory vacations help detect it."],
+[3,"Requiring employees to periodically move between different roles helps to:","Detect fraud and reduce reliance on a single individual",["Increase privilege creep","Eliminate the need for audits","Replace separation of duties"],"Job rotation lets others review the work and detect irregularities, and it cross-trains staff."],
+[3,"A file owner grants a co-worker read access to a document they created. Which access control model is being used?","Discretionary Access Control (DAC)",["Mandatory Access Control (MAC)","Role-Based Access Control (RBAC)","Rule-based access control"],"In DAC, the owner of the object decides who can access it. Most operating systems use DAC for files."],
+[3,"In which access control model does the system enforce access based on security labels and clearances, and users cannot change permissions?","Mandatory Access Control (MAC)",["Discretionary Access Control (DAC)","Role-Based Access Control (RBAC)","Attribute-Based Access Control (ABAC)"],"MAC is centrally controlled and label-based (e.g., Secret, Top Secret), typical of government and military systems."],
+[3,"Which access control model is considered the MOST restrictive?","Mandatory Access Control (MAC)",["Discretionary Access Control (DAC)","Role-Based Access Control (RBAC)","Rule-based access control"],"In MAC only the system/administrator enforces access based on labels; owners have no discretion."],
+[3,"All accountants are assigned to an 'Accounting' group that has access to financial applications. Which access control model is this?","Role-Based Access Control (RBAC)",["Mandatory Access Control (MAC)","Discretionary Access Control (DAC)","Attribute-Based Access Control (ABAC)"],"RBAC assigns permissions to roles based on job functions, and users inherit permissions from their roles."],
+[3,"Which access control model is generally the EASIEST to manage in a large organization with many employees performing well-defined jobs?","Role-Based Access Control (RBAC)",["Discretionary Access Control (DAC)","Individual user-based permissions","Mandatory Access Control (MAC)"],"Managing a few roles is simpler than managing permissions for thousands of individual users."],
+[3,"Access is granted only if the user is in the Finance department, using a company device, and connecting during business hours. Which model is this?","Attribute-Based Access Control (ABAC)",["Discretionary Access Control (DAC)","Mandatory Access Control (MAC)","Role-Based Access Control (RBAC)"],"ABAC evaluates multiple attributes of the subject, object, action and environment (time, location, device)."],
+[3,"In access control terminology, a user or process that requests access to a resource is called the:","Subject",["Object","Rule","Label"],"Subjects are active entities (users, processes). Objects are passive entities (files, databases, printers)."],
+[3,"In access control terminology, a file or database being accessed is called the:","Object",["Subject","Principal","Owner"],"An object is the passive entity that contains or receives information."],
+[3,"What is the BEST practice for system administrators performing daily tasks such as reading email?","Use a standard user account and a separate privileged account only for administrative tasks",["Always use the administrator account for efficiency","Share one administrator account among all admins","Disable logging on the administrator account"],"Separate accounts reduce the exposure of privileged credentials to phishing and malware."],
+[3,"Why should shared or generic accounts be avoided?","They prevent individual accountability",["They improve password strength","They are required by least privilege","They reduce administrative overhead"],"If several people use the same account, actions cannot be traced to a specific individual."],
+[3,"An employee is terminated. What should happen to their system access?","It should be disabled or revoked immediately",["It should be kept active for 90 days","It should be transferred to their manager","It should be deleted after one year"],"Prompt deprovisioning prevents a former employee from misusing access."],
+[3,"An employee has moved through several departments over the years and still retains permissions from each previous role. This is known as:","Privilege creep",["Least privilege","Separation of duties","Need to know"],"Privilege creep is the accumulation of unnecessary access rights over time."],
+[3,"Which control BEST addresses privilege creep?","Periodic user access reviews",["Increasing password length","Installing a firewall","Enabling full disk encryption"],"Regular access reviews (recertification) identify and remove permissions that are no longer needed."],
+[3,"A contractor needs access to a system for exactly three weeks. What is the BEST way to provision the account?","Create the account with an automatic expiration date",["Share an existing employee's account","Create a permanent account and remember to delete it","Give the contractor administrator rights"],"Expiration dates ensure temporary access is removed automatically."],
+[3,"Using multiple layers of different security controls so that if one fails, others still protect the asset is called:","Defense in depth",["Single point of failure","Least privilege","Security through obscurity"],"Defense in depth (layered security) combines physical, technical and administrative controls."],
+[3,"Which of the following describes Single Sign-On (SSO)?","A user authenticates once and gains access to multiple systems",["Each system requires a different password","A user must authenticate with three factors","Access is granted based on security labels"],"SSO improves usability; its risk is that one compromised credential can grant access to many systems, so MFA is recommended."],
+[3,"What is a key risk of Single Sign-On?","A compromised credential may grant access to many systems",["Users must remember more passwords","It prevents the use of MFA","It increases help desk password resets"],"Because one credential unlocks many resources, SSO credentials must be well protected (e.g., MFA)."],
+[3,"Which privileged access practice grants elevated rights only when needed and only for a limited time?","Just-in-time (JIT) privileged access",["Permanent administrator rights","Shared administrator accounts","Discretionary access control"],"JIT access minimizes the time that privileged rights exist, reducing the attack surface."],
+[3,"A firewall that allows traffic only if it matches an explicit permit rule and blocks everything else follows which principle?","Implicit deny (default deny)",["Implicit allow","Need to know","Separation of duties"],"Implicit deny means anything not explicitly allowed is denied."],
+[3,"Firewall rules that allow or deny traffic based on IP addresses and ports are an example of:","Rule-based access control",["Discretionary access control","Mandatory access control","Role-based access control"],"Rule-based access control applies global rules to all subjects, such as router and firewall ACLs."],
+[3,"Which of the following should be done FIRST with a new network device that ships with a default administrator password?","Change the default password",["Connect it to the Internet","Enable all services","Publish its IP address"],"Default credentials are publicly known and are a common attack vector."],
+[3,"What is the purpose of an automatic session timeout on a workstation?","To reduce the risk of unauthorized use of an unattended session",["To increase network speed","To enforce separation of duties","To back up user data"],"Locking idle sessions prevents someone from using an unattended logged-in computer."],
+[3,"In biometrics, the point where the False Acceptance Rate equals the False Rejection Rate is called the:","Crossover Error Rate (CER)",["Type I error","Type II error","Failure rate"],"The CER (or EER) is used to compare biometric systems: the lower the CER, the more accurate the system."],
+[3,"A biometric system rejects a legitimate, authorized user. This is called a:","False rejection (Type I error)",["False acceptance (Type II error)","Crossover error","True positive"],"FRR (Type I) affects usability; FAR (Type II) affects security."],
+[3,"Which privileged account management practice helps detect misuse of administrator accounts?","Logging and monitoring all privileged account activity",["Allowing administrators to disable logging","Using the same password on all admin accounts","Granting all users administrator rights"],"Privileged activity must be logged and reviewed, ideally by someone other than the administrator."],
+[3,"Which of the following is an example of a logical access control?","Requiring a password to log in to a database",["A locked cabinet","A security guard at the door","A fence around the parking lot"],"Logical (technical) access controls restrict access to systems and data through software and hardware."],
+[3,"Who should approve a user's request for access to a sensitive business application?","The data or system owner",["The user themselves","Any help desk technician","An external auditor"],"The owner is accountable for the asset and decides who should have access; IT implements it."],
+[3,"What is the term for the process of creating, modifying and removing user accounts and their access rights over time?","Identity and account lifecycle management (provisioning/deprovisioning)",["Change control","Configuration baselining","Data classification"],"Provisioning at onboarding, adjusting on role changes and deprovisioning on exit are key access control processes."],
+[3,"Turnstiles at a building entrance PRIMARILY help to:","Allow only one person to pass per authorized credential",["Encrypt badge data","Detect malware","Stop vehicles"],"Turnstiles control pedestrian flow and reduce tailgating."],
+[3,"A badge reader combined with a PIN keypad at a data center door is an example of:","Multi-factor physical access control",["Single-factor authentication","Mandatory access control","A deterrent control only"],"Badge (have) + PIN (know) = two different factors."],
+[3,"Which of the following BEST implements least privilege for a new employee?","Grant only the permissions required for their job role",["Copy the permissions of the most senior team member","Grant full access and remove it later if needed","Grant administrator rights temporarily for the first month"],"Start with minimum required access and add only what is justified."],
+// ===================== DOMAIN 4: NETWORK SECURITY =====================
+[4,"At which layer of the OSI model do routers primarily operate?","Layer 3 - Network",["Layer 2 - Data Link","Layer 4 - Transport","Layer 7 - Application"],"Routers forward packets based on logical (IP) addresses at the Network layer."],
+[4,"At which layer of the OSI model do traditional switches operate, forwarding frames based on MAC addresses?","Layer 2 - Data Link",["Layer 1 - Physical","Layer 3 - Network","Layer 5 - Session"],"Layer 2 switches use MAC addresses to forward frames within a local network."],
+[4,"TCP and UDP operate at which layer of the OSI model?","Layer 4 - Transport",["Layer 3 - Network","Layer 5 - Session","Layer 6 - Presentation"],"The Transport layer provides end-to-end communication, segmentation and port numbers."],
+[4,"Which OSI layer is responsible for data formatting, translation, and often encryption and compression?","Layer 6 - Presentation",["Layer 7 - Application","Layer 5 - Session","Layer 4 - Transport"],"The Presentation layer translates data formats (e.g., character encoding, encryption)."],
+[4,"Protocols such as HTTP, SMTP and DNS operate at which OSI layer?","Layer 7 - Application",["Layer 3 - Network","Layer 4 - Transport","Layer 2 - Data Link"],"Application layer protocols provide network services directly to applications."],
+[4,"Cables, connectors, and electrical signals belong to which OSI layer?","Layer 1 - Physical",["Layer 2 - Data Link","Layer 3 - Network","Layer 4 - Transport"],"The Physical layer transmits raw bits over the medium."],
+[4,"Which OSI layer establishes, manages and terminates sessions between applications?","Layer 5 - Session",["Layer 4 - Transport","Layer 6 - Presentation","Layer 3 - Network"],"OSI layers from bottom: Physical, Data Link, Network, Transport, Session, Presentation, Application."],
+[4,"What is the correct sequence of the TCP three-way handshake?","SYN, SYN-ACK, ACK",["ACK, SYN, FIN","SYN, ACK, SYN-ACK","SYN-ACK, SYN, ACK"],"The client sends SYN, the server responds SYN-ACK, and the client confirms with ACK."],
+[4,"Which statement BEST describes UDP compared with TCP?","UDP is connectionless and does not guarantee delivery",["UDP uses a three-way handshake","UDP guarantees ordered delivery","UDP is always encrypted"],"UDP is faster with less overhead, suited for streaming, VoIP and DNS queries."],
+[4,"Which are the four layers of the TCP/IP model?","Application, Transport, Internet, Network Access (Link)",["Physical, Data Link, Network, Transport","Application, Session, Network, Physical","Presentation, Transport, Internet, Physical"],"The TCP/IP model condenses the OSI layers into four layers."],
+[4,"How many bits are in an IPv4 address and an IPv6 address, respectively?","32 and 128",["64 and 128","32 and 64","128 and 256"],"IPv4 = 32 bits (dotted decimal). IPv6 = 128 bits (hexadecimal, colon separated)."],
+[4,"Which of the following is a private IPv4 address (RFC 1918)?","192.168.10.25",["8.8.8.8","172.32.1.1","11.0.0.1"],"Private ranges: 10.0.0.0/8, 172.16.0.0 - 172.31.255.255, and 192.168.0.0/16."],
+[4,"Which address is the IPv4 loopback address?","127.0.0.1",["192.168.0.1","0.0.0.0","255.255.255.255"],"127.0.0.1 (IPv6 ::1) refers to the local host itself."],
+[4,"Which protocol and port should be used instead of Telnet (port 23) for secure remote command-line administration?","SSH on port 22",["FTP on port 21","HTTP on port 80","SNMP on port 161"],"Telnet sends everything, including credentials, in cleartext. SSH encrypts the session."],
+[4,"Which port is used by HTTPS by default?","443",["80","8080","22"],"HTTP uses port 80 (cleartext); HTTPS uses 443 (HTTP over TLS)."],
+[4,"Which port does DNS use by default?","53",["25","110","389"],"DNS uses UDP 53 for most queries and TCP 53 for zone transfers and large responses."],
+[4,"Remote Desktop Protocol (RDP) uses which default port?","3389",["3306","445","1433"],"RDP (3389) should never be directly exposed to the Internet; use a VPN and MFA."],
+[4,"Which of the following is the secure alternative to plain FTP (ports 20/21) for file transfer?","SFTP",["TFTP","Telnet","HTTP"],"SFTP runs over SSH (port 22). FTPS (FTP over TLS) is another secure option. TFTP is insecure."],
+[4,"Which default port is used by LDAP over TLS (LDAPS)?","636",["389","443","143"],"LDAP uses 389 (cleartext); LDAPS uses 636."],
+[4,"Which protocol automatically assigns IP addresses to devices on a network?","DHCP",["DNS","ARP","SMTP"],"Dynamic Host Configuration Protocol assigns IP address, subnet mask, gateway and DNS servers."],
+[4,"Which protocol resolves human-readable domain names into IP addresses?","DNS",["DHCP","ARP","NTP"],"Domain Name System translates names like www.example.com into IP addresses."],
+[4,"Which protocol maps an IP address to a MAC address on a local network?","ARP",["DNS","DHCP","ICMP"],"Address Resolution Protocol. ARP poisoning/spoofing can be used for on-path (MITM) attacks."],
+[4,"Which version of SNMP should be used because it supports authentication and encryption?","SNMPv3",["SNMPv1","SNMPv2c","SNMPv0"],"SNMPv1/v2c use cleartext community strings; SNMPv3 adds security."],
+[4,"Which range of port numbers is known as the 'well-known ports'?","0 - 1023",["1024 - 49151","49152 - 65535","0 - 65535"],"Well-known: 0-1023; registered: 1024-49151; dynamic/ephemeral: 49152-65535."],
+[4,"What is the main difference between a DoS and a DDoS attack?","A DDoS attack comes from many distributed sources, often a botnet",["A DoS attack targets confidentiality","A DDoS attack only targets databases","A DoS attack always uses malware"],"Distributed attacks use many compromised systems, making them harder to block."],
+[4,"An attacker sends a large number of TCP SYN packets but never completes the handshake, exhausting server resources. This attack is called a:","SYN flood",["Smurf attack","SQL injection","Phishing attack"],"SYN floods leave half-open connections that consume server resources - a DoS attack."],
+[4,"A network of compromised computers controlled remotely by an attacker is called a:","Botnet",["Honeynet","VLAN","DMZ"],"Botnets are commonly used for DDoS attacks, spam and credential stuffing."],
+[4,"Which type of malware replicates itself across networks WITHOUT requiring user interaction or a host file?","Worm",["Virus","Trojan","Spyware"],"Worms self-propagate by exploiting vulnerabilities. Viruses need a host file and user action."],
+[4,"Which type of malware attaches itself to a host file and requires user action, such as opening the file, to spread?","Virus",["Worm","Rootkit","Botnet"],"Viruses infect files or programs and spread when the infected item is executed."],
+[4,"A user downloads a free game that secretly installs a backdoor. This malware is a:","Trojan",["Worm","Logic bomb","Adware"],"A Trojan horse masquerades as legitimate software while performing malicious actions."],
+[4,"Which type of malware encrypts a victim's files and demands payment for the decryption key?","Ransomware",["Spyware","Rootkit","Adware"],"Ransomware attacks availability. Defenses: offline backups, patching, awareness, endpoint protection."],
+[4,"Which type of malware is designed to hide its presence and maintain privileged access, often by modifying the operating system?","Rootkit",["Adware","Worm","Keylogger"],"Rootkits conceal themselves and other malware, making detection very difficult."],
+[4,"Malware that records a user's keystrokes to capture passwords is called a:","Keylogger",["Worm","Logic bomb","Ransomware"],"Keyloggers (a form of spyware) can be software or hardware."],
+[4,"Malicious code that executes when a specific condition is met, such as a certain date or an employee's account being deleted, is a:","Logic bomb",["Worm","Trojan","Botnet"],"Logic bombs are often planted by malicious insiders."],
+[4,"An attacker secretly intercepts and possibly alters communications between two parties who believe they are communicating directly. This is a(n):","On-path (man-in-the-middle) attack",["Side-channel attack","DDoS attack","Brute-force attack"],"MITM/on-path attacks can be mitigated with strong encryption (TLS) and mutual authentication."],
+[4,"An attacker determines a cryptographic key by measuring a device's power consumption and timing. This is a:","Side-channel attack",["Phishing attack","SQL injection","Fragmentation attack"],"Side-channel attacks exploit physical characteristics of a system rather than weaknesses in the algorithm."],
+[4,"An attack that sends overlapping or malformed IP fragments that a target cannot reassemble properly is a:","Fragmentation attack",["Phishing attack","Side-channel attack","Pharming attack"],"Fragmentation attacks (e.g., Teardrop) can cause crashes or evade IDS/firewall inspection."],
+[4,"An attacker forges the source IP address of packets to impersonate another system. This is called:","Spoofing",["Sniffing","Phishing","Tailgating"],"Spoofing falsifies identity information such as IP, MAC or email addresses."],
+[4,"An attacker inserts malicious database commands into a web form input field. What is the BEST defense?","Input validation and parameterized queries",["Increasing bandwidth","Using a stronger Wi-Fi password","Disabling DNS"],"SQL injection is prevented by validating input and using parameterized queries/prepared statements."],
+[4,"An attacker injects malicious scripts into a trusted website that then run in other users' browsers. This is:","Cross-site scripting (XSS)",["SQL injection","SYN flood","ARP poisoning"],"XSS targets users of a web application. Defenses include input validation and output encoding."],
+[4,"What is the main difference between an IDS and an IPS?","An IDS detects and alerts, while an IPS can actively block malicious traffic",["An IDS blocks traffic, while an IPS only logs it","They are identical","An IPS only works on hosts"],"An IDS is passive (detective). An IPS sits inline and is preventive."],
+[4,"Software installed on a single server to monitor its system files and logs for suspicious activity is a:","Host-based IDS (HIDS)",["Network-based IDS (NIDS)","Firewall","Load balancer"],"A HIDS monitors one host. A NIDS monitors network traffic on a segment."],
+[4,"A NIDS is MOST limited in its ability to inspect which type of traffic?","Encrypted traffic",["Unencrypted HTTP traffic","Broadcast traffic","Traffic on the same segment"],"A NIDS cannot inspect the contents of encrypted packets unless they are decrypted first."],
+[4,"An IDS raises an alert for normal, legitimate activity. This is called a:","False positive",["False negative","True positive","True negative"],"A false positive is an incorrect alert. A false negative (a missed attack) is generally more dangerous."],
+[4,"Which technology collects, aggregates and correlates log data from many sources to identify security incidents?","SIEM",["VPN","NAT","DHCP"],"Security Information and Event Management provides centralized log analysis, correlation and alerting."],
+[4,"What is the PRIMARY function of a firewall?","To filter network traffic based on a defined set of rules",["To encrypt all stored data","To assign IP addresses","To detect malware in files"],"Firewalls enforce access policy between networks by allowing or blocking traffic."],
+[4,"Which type of firewall tracks the state of active connections and makes decisions based on the context of the traffic?","Stateful inspection firewall",["Static packet filter","Repeater","Hub"],"Stateful firewalls remember connection state, unlike simple stateless packet filters."],
+[4,"Which device is specifically designed to protect web applications from attacks such as SQL injection and XSS?","Web Application Firewall (WAF)",["Network switch","DHCP server","Proxy ARP"],"A WAF inspects HTTP/HTTPS traffic at the application layer."],
+[4,"Anti-malware software that relies on signatures is LEAST effective against:","Zero-day malware",["Well-known viruses","Old worms","Malware with published signatures"],"Signatures only detect known threats; heuristic and behavior-based detection help against new malware."],
+[4,"A decoy system intentionally set up to attract attackers and study their behavior is a:","Honeypot",["DMZ","Bastion host","Proxy"],"Honeypots divert attackers and provide intelligence about their techniques."],
+[4,"Where should a company place its public-facing web and email servers?","In a DMZ (screened subnet)",["On the internal LAN with workstations","On the same VLAN as the database servers","Outside the firewall with no protection"],"A DMZ separates publicly accessible services from the internal trusted network."],
+[4,"Which technology logically segments a network on the same physical switch into separate broadcast domains?","VLAN",["VPN","NAT","DNS"],"Virtual LANs separate traffic logically; routing/firewalling is needed between VLANs."],
+[4,"Which technology creates an encrypted tunnel over an untrusted network, such as the Internet, for remote users?","VPN",["VLAN","DMZ","NAC"],"Virtual Private Networks protect data in transit (e.g., IPsec, TLS VPNs)."],
+[4,"Which security model is based on the principle 'never trust, always verify', regardless of network location?","Zero Trust",["Perimeter-based security","Implicit trust","Defense by obscurity"],"Zero Trust continuously authenticates and authorizes every request; being on the internal network does not imply trust."],
+[4,"Dividing a network into very small zones, down to individual workloads, with security policies between them is called:","Microsegmentation",["Broadcasting","Port forwarding","Load balancing"],"Microsegmentation limits lateral movement and is a key enabler of Zero Trust."],
+[4,"Which technology checks a device's identity and security posture (e.g., patches, antivirus) before allowing it on the network?","Network Access Control (NAC)",["Network Address Translation (NAT)","Domain Name System (DNS)","Virtual LAN (VLAN)"],"NAC can quarantine non-compliant devices or place them on a remediation network."],
+[4,"What is the BEST way to reduce the risk posed by IoT devices such as smart cameras on a corporate network?","Place them on a separate, isolated network segment",["Connect them to the same VLAN as critical servers","Give them static public IP addresses","Disable their firmware updates"],"IoT/embedded devices are often hard to patch; segmentation limits the impact of a compromise."],
+[4,"A company uses a web-based email service where the provider manages the application, OS and infrastructure. Which cloud service model is this?","Software as a Service (SaaS)",["Infrastructure as a Service (IaaS)","Platform as a Service (PaaS)","On-premises hosting"],"In SaaS, the customer simply uses the application (e.g., Microsoft 365, Gmail)."],
+[4,"In which cloud service model is the customer responsible for managing the operating system, applications and data, while the provider manages the physical infrastructure?","Infrastructure as a Service (IaaS)",["Software as a Service (SaaS)","Platform as a Service (PaaS)","Function as a Service (FaaS)"],"IaaS provides virtual machines, storage and networking; the customer manages everything above the hypervisor."],
+[4,"Developers want to deploy code without managing servers or operating systems. Which cloud model BEST fits?","Platform as a Service (PaaS)",["Infrastructure as a Service (IaaS)","Software as a Service (SaaS)","Private colocation"],"PaaS provides a managed platform (runtime, middleware) for developing and running applications."],
+[4,"A cloud infrastructure shared by several organizations with common concerns, such as government agencies, is a:","Community cloud",["Public cloud","Private cloud","Hybrid cloud"],"Community clouds serve a specific group with shared requirements."],
+[4,"An organization uses its own private data center together with a public cloud provider. Which deployment model is this?","Hybrid cloud",["Community cloud","Public cloud","Private cloud"],"Hybrid clouds combine two or more deployment models."],
+[4,"In the cloud shared responsibility model, which is ALWAYS the customer's responsibility regardless of the service model?","Their data and who has access to it",["Physical security of the data center","The hypervisor","The provider's network hardware"],"The provider secures 'of' the cloud; the customer is always responsible for data, identities and access."],
+[4,"Which document formally defines the expected level of service, such as 99.9% uptime, between a provider and a customer?","Service Level Agreement (SLA)",["Memorandum of Understanding (MOU)","Acceptable Use Policy (AUP)","Non-Disclosure Agreement (NDA)"],"SLAs specify measurable service levels and penalties if they are not met."],
+[4,"Two organizations agree to support each other during emergencies, documented in a less formal, non-binding agreement. This is BEST described as a(n):","Memorandum of Understanding (MOU)",["Service Level Agreement (SLA)","Acceptable Use Policy (AUP)","Statement of Work"],"An MOU/MOA documents the intent and responsibilities of the parties, often used for reciprocal agreements."],
+[4,"A company outsources the management and monitoring of its IT infrastructure to a third party. This third party is a:","Managed Service Provider (MSP)",["Internet Service Provider only","Certificate Authority","Data owner"],"MSPs (and MSSPs for security) manage services on behalf of customers; responsibilities should be defined in contracts/SLAs."],
+[4,"What is the PRIMARY purpose of an Uninterruptible Power Supply (UPS) in a data center?","To provide short-term power and allow clean shutdown or transfer to a generator",["To provide power for several days","To cool the servers","To filter malicious traffic"],"A UPS (batteries) bridges short outages; generators provide long-term power."],
+[4,"Why is HVAC important in a data center?","It maintains proper temperature and humidity to prevent equipment failure",["It prevents SQL injection","It encrypts data in transit","It controls user access to servers"],"Excessive heat damages equipment, low humidity causes static electricity, and high humidity causes corrosion."],
+[4,"Which type of fire suppression is generally preferred in data centers to minimize damage to electronic equipment?","Clean agent (gas-based) suppression",["Standard wet-pipe sprinklers only","Portable water extinguishers","Foam suppression"],"Clean agent systems suppress fire without water damage. Dry-pipe/pre-action systems are also used."],
+[4,"Which wireless security protocol provides the STRONGEST protection?","WPA3",["WEP","WPA","Open network with MAC filtering"],"WEP is broken, WPA (TKIP) is weak, WPA2 is acceptable, WPA3 is the current strongest."],
+[4,"An organization has two Internet connections from different providers so that if one fails, the other remains available. This supports:","Availability through redundancy",["Confidentiality through encryption","Integrity through hashing","Non-repudiation"],"Redundant links remove single points of failure."],
+[4,"An attacker floods a switch with fake MAC addresses so that it starts broadcasting all traffic. This is:","MAC flooding",["DNS poisoning","SQL injection","Phishing"],"When the CAM table overflows, the switch acts like a hub, enabling sniffing. Port security mitigates this."],
+[4,"Corrupting a DNS resolver's cache so users are redirected to a malicious website is called:","DNS poisoning",["ARP flooding","Side-channel","Brute force"],"DNS cache poisoning (and pharming) redirect traffic. DNSSEC helps validate DNS responses."],
+[4,"Which tool is used to identify known weaknesses, missing patches and misconfigurations on systems?","Vulnerability scanner",["Packet sniffer","Load balancer","Proxy server"],"Vulnerability scanners compare systems against databases of known vulnerabilities (CVEs)."],
+[4,"A penetration test differs from a vulnerability scan because a penetration test:","Actively attempts to exploit vulnerabilities to demonstrate impact",["Only lists missing patches","Is always fully automated","Does not require authorization"],"Penetration tests simulate real attacks and must always have written authorization."],
+[4,"Network Address Translation (NAT) provides which security benefit?","It hides internal private IP addresses from external networks",["It encrypts all traffic","It detects malware","It authenticates users"],"NAT translates private addresses to a public one, concealing the internal addressing scheme."],
+[4,"Which protocol is used to securely encrypt web traffic between a browser and a server?","TLS",["SSL 2.0","Telnet","FTP"],"Transport Layer Security (TLS 1.2/1.3) replaced the deprecated SSL protocols."],
+[4,"Which network device connects different networks and forwards packets between them based on IP addresses?","Router",["Hub","Repeater","Switch operating at Layer 2"],"Routers operate at Layer 3 and determine the best path to the destination network."],
+[4,"An embedded system, such as a controller in an industrial plant, typically presents which security challenge?","It may be difficult to patch and update",["It always runs the latest OS","It is never connected to a network","It is immune to malware"],"Embedded and OT/ICS systems often have long lifecycles, limited resources and limited patching options."],
+[4,"Which attack attempts to guess a password by systematically trying every possible combination?","Brute-force attack",["Phishing","Side-channel attack","Spoofing"],"Account lockout, rate limiting, MFA and long passwords defend against brute force."],
+[4,"Sending ICMP echo requests to a broadcast address with a spoofed source address of the victim is a:","Smurf attack",["SYN flood","Teardrop attack","SQL injection"],"Smurf is an amplification DDoS attack using ICMP and broadcast addresses."],
+// ===================== DOMAIN 5: SECURITY OPERATIONS =====================
+[5,"Which type of encryption uses the SAME key to encrypt and decrypt data?","Symmetric encryption",["Asymmetric encryption","Hashing","Public key infrastructure"],"Symmetric algorithms (e.g., AES) are fast and suited for bulk data, but securely distributing the key is a challenge."],
+[5,"What is the main challenge of symmetric encryption?","Securely distributing and managing the shared key",["It is too slow for large amounts of data","It cannot provide confidentiality","It requires two different keys"],"Everyone who shares the key can decrypt, and the key must be exchanged securely."],
+[5,"Which of the following is a symmetric encryption algorithm?","AES",["RSA","ECC","Diffie-Hellman"],"AES is symmetric. RSA and ECC are asymmetric; Diffie-Hellman is a key-exchange algorithm."],
+[5,"Which of the following is an asymmetric encryption algorithm?","RSA",["AES","3DES","SHA-256"],"RSA uses a public/private key pair. SHA-256 is a hash function."],
+[5,"Alice wants to send Bob a message that only Bob can read. Which key should Alice use to encrypt it?","Bob's public key",["Alice's private key","Alice's public key","Bob's private key"],"Encrypt with the recipient's public key; only the recipient's private key can decrypt it."],
+[5,"Alice wants to digitally sign a document so that anyone can verify she sent it. Which key does she use to create the signature?","Alice's private key",["Alice's public key","Bob's public key","A shared symmetric key"],"Signatures are created with the sender's private key and verified with the sender's public key."],
+[5,"Which statement about hashing is TRUE?","Hashing is a one-way function that produces a fixed-length output",["Hashing can be reversed with the correct key","Hash output length depends on input size","Hashing provides confidentiality"],"Hash functions (e.g., SHA-256) are one-way and are used to verify integrity and store passwords."],
+[5,"Adding a random value to a password before hashing it to defend against precomputed rainbow table attacks is called:","Salting",["Key stretching only","Encoding","Obfuscation"],"A unique salt per password ensures identical passwords produce different hashes."],
+[5,"How many symmetric keys are needed for 10 users to communicate privately with each other?","45",["10","20","100"],"Symmetric keys needed = n(n-1)/2 = 10x9/2 = 45. With asymmetric encryption, each user needs a key pair (20 keys)."],
+[5,"Which of the following is the correct order of the data lifecycle?","Create, Store, Use, Share, Archive, Destroy",["Store, Create, Share, Use, Destroy, Archive","Create, Use, Destroy, Store, Share, Archive","Use, Create, Store, Archive, Share, Destroy"],"Data must be protected throughout its entire lifecycle, from creation to secure destruction."],
+[5,"Who is responsible for determining the classification level of a dataset?","The data owner",["The data custodian","The end user","The help desk"],"The data owner (usually a senior business manager) is accountable for classifying and protecting the data."],
+[5,"An IT administrator who performs backups and maintains the systems that store data, as directed by the owner, is the:","Data custodian",["Data owner","Data subject","Auditor"],"Custodians handle day-to-day protection tasks; owners remain accountable."],
+[5,"What is the PRIMARY purpose of data classification?","To determine the level of protection required for the data",["To reduce storage costs","To increase network speed","To eliminate the need for encryption"],"Classification (e.g., Public, Internal, Confidential, Restricted) drives handling, labeling and controls."],
+[5,"Marking a document 'Confidential' in its header and footer is an example of:","Labeling",["Hashing","Degaussing","Tokenization"],"Labeling communicates the classification so users know how to handle the information."],
+[5,"How long should an organization retain data?","As long as required by laws, regulations and business needs, and no longer",["Forever, in case it is needed","For exactly one year","Until storage is full"],"Retaining data longer than necessary increases risk and legal exposure; the retention policy defines periods."],
+[5,"Residual data that remains on storage media after it has been erased is called:","Data remanence",["Data integrity","Data masking","Data in transit"],"Proper sanitization (clearing, purging, destruction) addresses data remanence."],
+[5,"Which data destruction method uses a strong magnetic field to erase magnetic media such as hard disk drives and tapes?","Degaussing",["Shredding","Overwriting","Cryptographic erasure"],"Degaussing is effective on magnetic media but NOT on SSDs or optical media."],
+[5,"Which method is the MOST secure way to ensure data on a failed hard drive can never be recovered?","Physical destruction, such as shredding or incineration",["Deleting the files","Formatting the drive","Emptying the recycle bin"],"Deleting and formatting leave data recoverable. Physical destruction is the most certain method."],
+[5,"Why is degaussing NOT effective on Solid State Drives (SSDs)?","SSDs store data in flash memory, not magnetically",["SSDs are always encrypted","SSDs are too small","SSDs automatically delete data"],"For SSDs, use cryptographic erasure, vendor secure-erase commands or physical destruction."],
+[5,"An organization wants to sanitize data stored in a cloud environment where it cannot physically access the drives. Which method is MOST appropriate?","Cryptographic erasure (destroying the encryption keys)",["Degaussing","Shredding","Incineration"],"If data is encrypted, destroying the keys renders it unreadable (crypto-shredding)."],
+[5,"Which encryption approach BEST protects data on a laptop if the device is stolen?","Full disk encryption",["TLS","A VPN","Hashing the files"],"Full disk encryption protects data at rest. TLS and VPNs protect data in transit."],
+[5,"Which of the following protects data in transit?","TLS",["Full disk encryption","Degaussing","Data classification labels"],"TLS, IPsec and SSH encrypt data while it travels across networks."],
+[5,"Why is it important to synchronize the clocks of all systems that generate logs (for example, with NTP)?","To accurately correlate events across systems during investigations",["To speed up the network","To encrypt logs","To reduce storage requirements"],"Consistent timestamps are essential for event correlation and forensic timelines."],
+[5,"What is the BEST way to protect logs from being altered by an attacker who compromises a server?","Send logs to a centralized, secured log server or SIEM",["Store logs only on the local server","Disable logging to save space","Allow all users to edit the logs"],"Centralized, write-protected logging preserves log integrity."],
+[5,"Which information should a security log entry typically include?","Who performed the action, what was done, when, and from where",["Only the user's password","Only the date","The user's personal email address"],"Useful logs record user ID, event type, timestamp, source/destination and outcome. Never log passwords."],
+[5,"A documented, approved set of security configurations used as a starting point for systems is called a:","Baseline",["Guideline","Exception","Vulnerability"],"Configuration baselines ensure systems are deployed consistently and securely; deviations should be detected."],
+[5,"Removing unnecessary services, closing unused ports and changing default settings on a system is called:","System hardening",["Data classification","Risk transference","Provisioning"],"Hardening reduces the attack surface."],
+[5,"Before deploying a security patch to production servers, what should be done FIRST?","Test the patch in a non-production environment",["Deploy it immediately to all servers","Wait until the next year","Uninstall the antivirus"],"Testing ensures the patch does not break critical systems; patches then follow change management."],
+[5,"What is the purpose of change management?","To ensure changes are requested, reviewed, approved, tested, documented and can be rolled back",["To prevent all changes to systems","To allow administrators to make changes freely","To replace incident response"],"Change management reduces outages and security issues caused by uncontrolled changes."],
+[5,"Which element should be included in every change request in case the change causes problems?","A rollback (back-out) plan",["A marketing plan","The administrator's password","A list of all employees"],"A rollback plan allows the organization to restore the previous state quickly."],
+[5,"Over time, a server's settings gradually diverge from the approved baseline due to undocumented changes. This is called:","Configuration drift",["Privilege creep","Data remanence","Salting"],"Configuration management tools monitor and correct drift against the baseline."],
+[5,"Which policy defines how employees may use the organization's computers, networks and Internet access?","Acceptable Use Policy (AUP)",["Business Continuity Plan","Data Retention Policy","Service Level Agreement"],"Users typically acknowledge the AUP when they are hired and periodically thereafter."],
+[5,"Which policy governs the use of personal smartphones and laptops to access company resources?","Bring Your Own Device (BYOD) policy",["Acceptable Use Policy for guests","Change management policy","Privacy policy for customers"],"BYOD policies often require device enrollment (MDM), screen locks and the ability to remotely wipe company data."],
+[5,"According to current best practices such as NIST SP 800-63B, which password practice is MOST recommended?","Use long passphrases and check them against lists of compromised passwords",["Force users to change passwords every 30 days","Require only complex 8-character passwords","Write passwords on a note under the keyboard"],"NIST favors length, screening against breached passwords and MFA, and changing passwords only when there is evidence of compromise."],
+[5,"Which document informs customers how an organization collects, uses and protects their personal data?","Privacy policy",["Acceptable use policy","Change management policy","BYOD policy"],"Privacy policies are often required by regulations such as GDPR."],
+[5,"What is the PRIMARY goal of security awareness training?","To change user behavior and reduce human-related security risks",["To make every employee a security expert","To replace technical controls","To satisfy only legal requirements"],"People are often the weakest link; awareness training helps users recognize and report threats."],
+[5,"When should employees receive security awareness training?","At onboarding and periodically throughout their employment",["Only after a breach","Only when they are promoted","Once, and never again"],"Threats evolve, so training must be ongoing and reinforced (e.g., phishing simulations)."],
+[5,"An attacker calls an employee, pretending to be from the IT help desk, and asks for their password. This is called:","Vishing (voice phishing)",["Smishing","Whaling","Baiting"],"Vishing uses phone calls. Verify the caller's identity through a known channel and never share passwords."],
+[5,"A text message claims a package is delayed and asks the recipient to click a link. This is:","Smishing",["Vishing","Whaling","Tailgating"],"Smishing is phishing via SMS/text messages."],
+[5,"A phishing email specifically crafted to target the company's CEO is called:","Whaling",["Vishing","Baiting","Pharming"],"Whaling targets senior executives ('big fish')."],
+[5,"A phishing email that targets a specific individual using personal details gathered about them is called:","Spear phishing",["Mass phishing","Whaling","Vishing"],"Spear phishing is targeted and personalized; whaling is spear phishing aimed at executives."],
+[5,"An attacker leaves infected USB drives labeled 'Salaries 2026' in the company parking lot. This is an example of:","Baiting",["Pretexting","Shoulder surfing","Smishing"],"Baiting exploits curiosity. Users should never plug in unknown devices."],
+[5,"An attacker creates a fabricated scenario, such as posing as an auditor, to convince an employee to reveal information. This is:","Pretexting",["Baiting","Tailgating","Dumpster diving"],"Pretexting relies on a believable invented story."],
+[5,"Watching someone enter their PIN at an ATM or a password on their screen is called:","Shoulder surfing",["Tailgating","Pharming","Vishing"],"Privacy screens and awareness help prevent shoulder surfing."],
+[5,"What should an employee do FIRST after receiving a suspicious email asking them to verify their account credentials?","Report it to the security team using the established process",["Click the link to check if it is legitimate","Reply and ask the sender if it is real","Forward it to all colleagues as a warning"],"Users should not interact with the email; reporting allows the security team to respond."],
+[5,"Social engineering attacks are MOST successful because they exploit:","Human psychology, such as trust, urgency, fear and authority",["Weak encryption algorithms","Unpatched servers","Misconfigured firewalls"],"Social engineering targets people rather than technology."],
+[5,"Searching through an organization's trash for documents with sensitive information is called:","Dumpster diving",["Shoulder surfing","Baiting","Pharming"],"Shredding sensitive documents and secure disposal policies prevent dumpster diving."],
+[5,"Which policy requires employees to secure sensitive documents and lock their screens when leaving their desks?","Clean desk policy",["BYOD policy","Change management policy","Data retention policy"],"A clean desk policy reduces the risk of information being viewed or stolen from workspaces."],
+[5,"Which technology monitors and blocks sensitive data from leaving the organization via email, web uploads or USB drives?","Data Loss Prevention (DLP)",["DHCP","NAT","RAID"],"DLP tools enforce egress monitoring based on content inspection and policies."],
+[5,"Which of the following is typically the FIRST step in securing an organization's systems?","Creating an inventory of hardware and software assets",["Purchasing a SIEM","Hiring a penetration tester","Encrypting all email"],"You cannot protect what you do not know you have."],
+[5,"Before a used laptop is reassigned to another employee, what should be done?","Securely sanitize the storage media",["Simply delete the previous user's files","Leave the data for reference","Change only the desktop wallpaper"],"Sanitization prevents the next user from recovering the previous user's data."],
+[5,"A user downloads software and compares its SHA-256 value with the one published on the vendor's website. What is the user verifying?","The integrity of the file",["The confidentiality of the file","The availability of the website","The speed of the download"],"Matching hashes indicate the file was not altered."],
+[5,"Who should approve an organization's security policies?","Senior management",["Individual users","The firewall vendor","Any IT technician"],"Policies reflect management's direction and require senior management approval and support."],
+[5,"Replacing sensitive data, such as a credit card number, with a non-sensitive substitute value that maps back to the original in a secure vault is called:","Tokenization",["Hashing","Degaussing","Salting"],"Tokenization reduces the exposure of sensitive data such as cardholder data."],
+[5,"Hiding part of sensitive data, such as displaying only the last four digits of a card number, is called:","Data masking",["Encryption","Hashing","Degaussing"],"Masking limits exposure in displays, reports and test environments."],
+[5,"Which of the following describes overwriting media with random data so that it can be reused within the organization?","Clearing",["Destruction","Degaussing","Incineration"],"Clearing protects against simple recovery; purging (e.g., degaussing, crypto erase) protects against laboratory recovery; destruction makes the media unusable."],
+[5,"Which security operations activity involves regularly reviewing logs and alerts to identify potential incidents?","Security monitoring",["Data classification","Provisioning","Baselining"],"Continuous monitoring enables early detection and response."],
+[5,"An organization requires users to acknowledge that their activity on company systems may be monitored. This is usually communicated through:","A login banner and the acceptable use policy",["The disaster recovery plan","The SLA with the ISP","The data retention schedule"],"Banners and AUPs set expectations and support legal action against violators."],
+[5,"Which of the following BEST describes the purpose of a patch management process?","To identify, test, approve and deploy updates in a timely and controlled manner",["To install every update immediately without testing","To disable automatic updates permanently","To remove all third-party software"],"Effective patch management reduces vulnerabilities while avoiding unexpected outages."],
+[5,"Which key management practice is MOST important for protecting encrypted data?","Protecting the confidentiality of private and secret keys",["Publishing the private key","Using the same key forever","Storing keys with the encrypted data in plaintext"],"Encryption is only as strong as the protection of its keys."],
+[5,"Encrypting a file with AES and then sending the AES key encrypted with the recipient's RSA public key is an example of:","Hybrid cryptography",["Hashing","Steganography","Tokenization"],"Hybrid systems use asymmetric encryption to exchange a symmetric session key, combining speed and secure key exchange (as in TLS)."]
+];
+
+const KEY = "isc2cc_trainer_v1";
+let S = load();
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.q)return Object.assign({exams:[],recent:[]},s)}catch(e){}return {q:{},exams:[],recent:[]}}
+function save(){localStorage.setItem(KEY,JSON.stringify(S))}
+const $=s=>document.querySelector(s), root=()=>$("#root");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const opts=i=>[QB[i][2],...QB[i][3]];
+const BOXW=[14,7,3.5,1.6,.6,.25];
+function weight(i){const s=S.q[i];if(!s)return 5;return BOXW[s.b]*(1+Math.min(s.w,5)*.3)}
+function record(i,ok){const s=S.q[i]||(S.q[i]={b:0,s:0,w:0,r:0,t:0});s.s++;s.t=Date.now();if(ok){s.r++;s.b=Math.min(5,s.b+1)}else{s.w++;s.b=0}}
+function pick(pool){
+  const rec=new Set(S.recent);let cand=pool.filter(i=>!rec.has(i));if(!cand.length)cand=pool;
+  let tot=0;const w=cand.map(i=>(tot+=weight(i)));let r=Math.random()*tot;
+  const i=cand[w.findIndex(x=>x>=r)]??cand[0];
+  S.recent.push(i);while(S.recent.length>Math.min(10,Math.floor(pool.length/2)))S.recent.shift();return i;
+}
+const KEYS="ABCD";
+
+// ---------- HOME ----------
+function home(){
+  stopTimer();
+  const tot=QB.length,seen=Object.keys(S.q).length,mast=Object.values(S.q).filter(s=>s.b>=3).length;
+  let ans=0,cor=0;Object.values(S.q).forEach(s=>{ans+=s.s;cor+=s.r});
+  const weak=QB.map((_,i)=>i).filter(i=>S.q[i]&&S.q[i].w>0&&S.q[i].b<3).length;
+  const dom=DOM.map((n,d)=>{const ids=QB.map((q,i)=>q[0]===d+1?i:-1).filter(i=>i>=0);let a=0,c=0,m=0;ids.forEach(i=>{const s=S.q[i];if(s){a+=s.s;c+=s.r;if(s.b>=3)m++}});return {n,ids,a,c,m}});
+  const ex=S.exams.slice(-5).reverse();
+  root().innerHTML=`<header class="top"><h1>ISC2 CC Trainer</h1><div class="r">${tot} questions</div></header><main class="anim">
+  <div class="card"><div class="grid">
+   <div><div class="big">${ans?Math.round(cor/ans*100):0}%</div><small>Accuracy</small></div>
+   <div><div class="big">${mast}</div><small>Mastered / ${tot}</small></div>
+   <div><div class="big">${seen}</div><small>Seen</small></div></div></div>
+  ${S.exam?`<button class="btn" onclick="examRender()">Resume exam simulation<small>Item ${S.exam.idx+1} of ${S.exam.items.length}</small></button>`:""}
+  <button class="btn" onclick="startPractice('all')">Smart Practice<small>Adaptive flashcards: the questions you fail appear more often</small></button>
+  <button class="btn sec" onclick="startPractice('weak')" ${weak?"":"disabled"}>Review my mistakes (${weak})<small>Only questions you have failed and not yet mastered</small></button>
+  <div class="card" style="margin-top:12px"><h2>Practice by domain</h2>
+   <select id="domSel">${dom.map((d,i)=>`<option value="${i+1}">D${i+1}. ${d.n} (${WEIGHT[i]}%)</option>`).join("")}</select>
+   <button class="btn sec" onclick="startPractice('d'+$('#domSel').value)">Start domain practice</button></div>
+  <button class="btn" style="background:#1f3b57" onclick="startExam()">Exam Simulation<small>${EXAM_ITEMS} items · 2 hours · official domain weights · no going back</small></button>
+  <div class="card"><h2>Progress by domain</h2>${dom.map((d,i)=>`<div class="stat"><span>D${i+1}. ${d.n}</span><span>${d.a?Math.round(d.c/d.a*100):0}%</span></div><div class="bar"><i style="width:${d.m/d.ids.length*100}%"></i></div>`).join("")}
+  <div class="mute">Bar = mastered questions (answered correctly 3+ times in a row). % = accuracy.</div></div>
+  ${ex.length?`<div class="card"><h2>Recent exam simulations</h2><table><tr><th>Date</th><th>Score</th><th>Result</th></tr>${ex.map(e=>`<tr><td>${new Date(e.d).toLocaleDateString()}</td><td>${e.sc}/1000 (${e.c}/${e.n})</td><td class="${e.sc>=PASS?"pass":"fail"}">${e.sc>=PASS?"PASS":"FAIL"}</td></tr>`).join("")}</table></div>`:""}
+  <div class="card"><h2>About the real exam</h2><div class="mute">ISC2 Certified in Cybersecurity (CC), outline effective Oct 1, 2025. Computerized Adaptive Testing (CAT): 100-125 items, 2 hours, passing score 700/1000. 25 of the items are unscored pretest items. You cannot go back to previous questions. Domain weights: D1 26%, D2 10%, D3 22%, D4 24%, D5 18%.</div></div>
+  <div class="card"><h2>Sync / data</h2><div class="mute">Progress is saved in this browser. Use export/import to move it between your PC and your phone.</div>
+   <div class="row"><button class="btn sec" onclick="exportData()">Export progress</button><button class="btn sec" onclick="$('#imp').click()">Import progress</button></div>
+   <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(this)">
+   <button class="btn warn" onclick="resetData()">Reset all progress</button></div>
+  </main>`;
+}
+
+// ---------- PRACTICE ----------
+let P=null;
+function startPractice(mode){
+  let pool=QB.map((_,i)=>i),label="Smart Practice";
+  if(mode==="weak"){pool=pool.filter(i=>S.q[i]&&S.q[i].w>0&&S.q[i].b<3);label="Review mistakes"}
+  else if(mode[0]==="d"){const d=+mode.slice(1);pool=pool.filter(i=>QB[i][0]===d);label="Domain "+d}
+  if(!pool.length)return home();
+  P={mode,pool,label,n:0,c:0};nextCard();
+}
+function nextCard(){
+  if(P.mode==="weak"){P.pool=P.pool.filter(i=>S.q[i].b<3);if(!P.pool.length){alert("Great! All your mistakes in this set are now mastered.");return home()}}
+  P.i=pick(P.pool);P.order=shuffle([0,1,2,3]);P.done=false;renderCard();
+}
+function renderCard(){
+  const q=QB[P.i],o=opts(P.i),s=S.q[P.i];
+  root().innerHTML=`<header class="top"><h1>${esc(P.label)}</h1><div class="r"><span>${P.c}/${P.n} correct</span><a class="lnk" style="color:#fff" onclick="home()">Exit</a></div></header><main>
+  <div class="card anim"><span class="chip">D${q[0]}. ${esc(DOM[q[0]-1])}</span> ${s?`<span class="chip" style="background:${s.b>=3?"#e5f6ec":"#fdeaea"}">${s.b>=3?"Mastered":"Failed "+s.w+"x"}</span>`:'<span class="chip">New</span>'}
+  <div class="q">${esc(q[1])}</div>
+  <div id="opts">${P.order.map((k,j)=>`<button class="opt" data-k="${k}" onclick="answer(${j})"><span class="k">${KEYS[j]}</span><span>${esc(o[k])}</span></button>`).join("")}</div>
+  <div id="fb"></div></div>
+  <div class="kbd">Keyboard: A-D or 1-4 to answer · Enter for next</div></main>`;
+}
+function answer(j){
+  if(P.done)return;P.done=true;
+  const ok=P.order[j]===0;record(P.i,ok);save();P.n++;if(ok)P.c++;
+  document.querySelectorAll(".opt").forEach((b,x)=>{b.disabled=true;if(P.order[x]===0)b.classList.add("ok");else if(x===j)b.classList.add("bad")});
+  $("#fb").innerHTML=`<div class="res ${ok?"ok":"bad"}">${ok?"Correct!":"Incorrect"}</div><div class="expl">${esc(QB[P.i][4])}</div><button class="btn" id="nx" onclick="nextCard()">Next question</button>`;
+  document.querySelector(".r span").textContent=`${P.c}/${P.n} correct`;
+  $("#nx").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+// ---------- EXAM ----------
+let timer=null;
+function stopTimer(){if(timer){clearInterval(timer);timer=null}}
+function startExam(){
+  if(S.exam&&!confirm("Discard the exam in progress and start a new one?"))return;
+  const items=[];
+  WEIGHT.forEach((w,d)=>{const ids=QB.map((q,i)=>q[0]===d+1?i:-1).filter(i=>i>=0);
+    const sorted=ids.map(i=>[i,Math.pow(Math.random(),1/weight(i))]).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
+    sorted.slice(0,Math.round(EXAM_ITEMS*w/100)).forEach(i=>items.push({i,o:shuffle([0,1,2,3]),a:null}))});
+  S.exam={items:shuffle(items),idx:0,end:Date.now()+EXAM_SECONDS*1000};save();
+  P=null;
+  root().innerHTML=`<header class="top"><h1>Exam Simulation</h1></header><main><div class="card anim"><h2>ISC2 Certified in Cybersecurity - Practice Exam</h2>
+  <p>You will be presented with <b>${S.exam.items.length} items</b> distributed according to the official domain weights. You have <b>2 hours</b>.</p>
+  <ul><li>Select the BEST answer for each item and click <b>Next</b>.</li><li>As in the real CAT exam, you <b>cannot return</b> to previous items, and no feedback is shown until the end.</li><li>Passing score: <b>700 out of 1000</b>.</li></ul>
+  <button class="btn" onclick="S.exam.end=Date.now()+EXAM_SECONDS*1000;save();examRender()">Begin exam</button><button class="btn sec" onclick="S.exam=null;save();home()">Cancel</button></div></main>`;
+}
+function fmt(s){s=Math.max(0,s);return [s/3600|0,(s/60|0)%60,s%60].map(x=>String(x).padStart(2,"0")).join(":")}
+function examRender(){
+  const E=S.exam;if(!E)return home();P=null;
+  const it=E.items[E.idx],o=opts(it.i);
+  document.body.classList.add("exam");
+  root().innerHTML=`<header class="top"><h1>Item ${E.idx+1} of ${E.items.length}</h1><div class="r"><span id="tm">⏱ ${fmt(Math.round((E.end-Date.now())/1000))}</span><a class="lnk" style="color:#fff" onclick="pauseExam()">Pause</a></div></header><main>
+  <div class="card anim"><div class="examq">${esc(QB[it.i][1])}</div>
+  ${it.o.map((k,j)=>`<label class="examopt ${it.a===j?"sel":""}" onclick="selExam(${j})"><input type="radio" name="x" ${it.a===j?"checked":""}><span><b>${KEYS[j]}.</b> ${esc(o[k])}</span></label>`).join("")}
+  <div class="foot"><span class="mute">${E.idx+1}/${E.items.length}</span><button class="btn" id="nb" onclick="examNext()" ${it.a===null?"disabled":""}>${E.idx===E.items.length-1?"Finish":"Next"} &rarr;</button></div></div>
+  <div class="kbd">Keyboard: A-D or 1-4 to select · Enter for next</div></main>`;
+  stopTimer();timer=setInterval(()=>{const left=Math.round((S.exam.end-Date.now())/1000);const t=$("#tm");if(t)t.textContent="⏱ "+fmt(left);if(left<=0){stopTimer();alert("Time is up!");finishExam()}},1000);
+}
+function selExam(j){const E=S.exam;E.items[E.idx].a=j;save();document.querySelectorAll(".examopt").forEach((l,x)=>{l.classList.toggle("sel",x===j);l.querySelector("input").checked=x===j});$("#nb").disabled=false}
+function examNext(){const E=S.exam;if(E.items[E.idx].a===null)return;if(E.idx<E.items.length-1){E.idx++;save();examRender();window.scrollTo(0,0)}else finishExam()}
+function pauseExam(){stopTimer();document.body.classList.remove("exam");home()}
+function finishExam(){
+  stopTimer();document.body.classList.remove("exam");
+  const E=S.exam;let c=0;const dc=[0,0,0,0,0],dn=[0,0,0,0,0];
+  E.items.forEach(it=>{const d=QB[it.i][0]-1;dn[d]++;const ok=it.a!==null&&it.o[it.a]===0;it.ok=ok;if(ok){c++;dc[d]++}if(it.a!==null)record(it.i,ok)});
+  const sc=Math.round(c/E.items.length*1000);
+  S.exams.push({d:Date.now(),sc,c,n:E.items.length});const R=E;S.exam=null;save();
+  window.__R=R;
+  root().innerHTML=`<header class="top"><h1>Exam results</h1><div class="r"><a class="lnk" style="color:#fff" onclick="home()">Home</a></div></header><main class="anim">
+  <div class="card" style="text-align:center"><div class="big ${sc>=PASS?"pass":"fail"}">${sc>=PASS?"PASS":"FAIL"}</div><div style="font-size:20px;margin:6px 0">${sc} / 1000</div><div class="mute">${c} of ${E.items.length} correct · passing score ${PASS}</div></div>
+  <div class="card"><h2>Performance by domain</h2><table><tr><th>Domain</th><th>Correct</th><th>%</th></tr>${DOM.map((n,d)=>`<tr><td>D${d+1}. ${n}</td><td>${dc[d]}/${dn[d]}</td><td class="${dn[d]&&dc[d]/dn[d]>=.7?"pass":"fail"}">${dn[d]?Math.round(dc[d]/dn[d]*100):0}%</td></tr>`).join("")}</table>
+  <div class="mute" style="margin-top:8px">Note: the real exam is adaptive (CAT) and its scaled score is not a simple percentage. This simulation uses 70% correct as an approximation of the 700 passing standard.</div></div>
+  <div class="card"><h2>Review</h2><label class="mute"><input type="checkbox" id="allrev" onchange="review()"> Show all items (default: incorrect only)</label><div id="rev"></div></div>
+  <button class="btn" onclick="startPractice('weak')">Practice my mistakes now</button><button class="btn sec" onclick="home()">Back to home</button></main>`;
+  review();
+}
+function review(){
+  const all=$("#allrev").checked,R=window.__R;
+  $("#rev").innerHTML=R.items.map((it,n)=>({it,n})).filter(x=>all||!x.it.ok).map(({it,n})=>{const q=QB[it.i],o=opts(it.i);const yours=it.a===null?"(no answer)":o[it.o[it.a]];
+    return `<div class="rev"><span class="chip">D${q[0]}</span> <b class="${it.ok?"pass":"fail"}">${it.ok?"✓":"✗"} Item ${n+1}</b><div style="margin:6px 0">${esc(q[1])}</div>
+    ${it.ok?"":`<div class="mute">Your answer: <b class="fail">${esc(yours)}</b></div>`}<div class="mute">Correct answer: <b class="pass">${esc(q[2])}</b></div><div class="expl">${esc(q[4])}</div></div>`}).join("")||'<div class="mute" style="margin-top:10px">No incorrect answers. Excellent!</div>';
+}
+
+// ---------- DATA ----------
+function exportData(){const b=new Blob([JSON.stringify(S)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="isc2cc-progress-"+new Date().toISOString().slice(0,10)+".json";a.click()}
+function importData(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.q)throw 0;S=Object.assign({exams:[],recent:[]},d);save();alert("Progress imported.");home()}catch(e){alert("Invalid file.")}};r.readAsText(f)}
+function resetData(){if(confirm("Delete ALL progress and exam history? This cannot be undone.")){S={q:{},exams:[],recent:[]};save();home()}}
+
+document.addEventListener("keydown",e=>{
+  const k=e.key.toUpperCase();let j="1234".indexOf(k);if(j<0)j=KEYS.indexOf(k);
+  if(P&&$("#opts")){if(j>=0&&!P.done)answer(j);else if((e.key==="Enter"||e.key===" ")&&P.done){e.preventDefault();nextCard()}}
+  else if(S.exam&&$(".examopt")){if(j>=0)selExam(j);else if(e.key==="Enter")examNext()}
+});
+home();
+if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js");
+</script>
+</body>
+</html>
