@@ -2,7 +2,7 @@
 
 Practice web app for the **ISC2 Certified in Cybersecurity (CC)** exam, updated for the exam outline effective **September 1, 2026**.
 
-**Open it:** https://frankar100.github.io/ssdlc-security-scanner/
+**Open it:** https://frankar100.github.io/SSDLC-Security-Scanner/
 
 ## Features
 
